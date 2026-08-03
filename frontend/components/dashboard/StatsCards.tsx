@@ -1,60 +1,99 @@
-import {
-  BriefcaseBusiness,
-  CalendarCheck,
-  Trophy,
-  XCircle,
-} from "lucide-react";
+"use client";
 
-const stats = [
-  {
-    title: "Total Jobs",
-    value: 24,
-    icon: BriefcaseBusiness,
-  },
-  {
-    title: "Interviews",
-    value: 8,
-    icon: CalendarCheck,
-  },
-  {
-    title: "Offers",
-    value: 2,
-    icon: Trophy,
-  },
-  {
-    title: "Rejected",
-    value: 6,
-    icon: XCircle,
-  },
-];
+import { Briefcase, Clock, CheckCircle, XCircle } from "lucide-react";
+
+import { useJobStore } from "@/stores/JobStore";
+
+const cardStyle =
+  "rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md";
 
 export default function StatsCards() {
+  const jobs = useJobStore((state) => state.jobs);
+
+  const totalJobs = jobs.length;
+
+  const interviews = jobs.filter(
+    (job) => job.status === "Interview"
+  ).length;
+
+  const offers = jobs.filter(
+    (job) => job.status === "Offer"
+  ).length;
+
+  const rejected = jobs.filter(
+    (job) => job.status === "Rejected"
+  ).length;
+
+  
+
+  const successRate =
+  totalJobs === 0
+    ? 0
+    : Math.round((offers / totalJobs) * 100);
+
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      {stats.map((item) => {
-        const Icon = item.icon;
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+      <div className={cardStyle}>
+        <Briefcase className="mb-3 h-8 w-8 text-blue-600" />
 
-        return (
-          <div
-            key={item.title}
-            className="rounded-2xl border bg-white p-6 shadow-sm"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">
-                  {item.title}
-                </p>
+        <p className="text-sm text-muted-foreground">
+          Total Applications
+        </p>
 
-                <h2 className="mt-2 text-3xl font-bold">
-                  {item.value}
-                </h2>
-              </div>
+        <h2 className="mt-2 text-3xl font-bold">
+          {totalJobs}
+        </h2>
+      </div>
 
-              <Icon className="h-10 w-10 text-blue-600" />
-            </div>
-          </div>
-        );
-      })}
+      <div className={cardStyle}>
+        <Clock className="mb-3 h-8 w-8 text-yellow-500" />
+
+        <p className="text-sm text-muted-foreground">
+          Interviews
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold">
+          {interviews}
+        </h2>
+      </div>
+
+      <div className={cardStyle}>
+        <CheckCircle className="mb-3 h-8 w-8 text-green-600" />
+
+        <p className="text-sm text-muted-foreground">
+          Offers
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold">
+          {offers}
+        </h2>
+      </div>
+
+      <div className={cardStyle}>
+        <XCircle className="mb-3 h-8 w-8 text-red-600" />
+
+        <p className="text-sm text-muted-foreground">
+          Rejected
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold">
+          {rejected}
+        </h2>
+      </div>
+      <div className={cardStyle}>
+
+        <div className="mb-3 text-3xl">🎯</div>
+
+        <p className="text-sm text-muted-foreground">
+          Success Rate
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold">
+          {successRate}%
+        </h2>
+      </div>
+
+
     </div>
   );
 }

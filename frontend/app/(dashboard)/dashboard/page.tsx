@@ -1,6 +1,7 @@
 import StatsCards from "@/components/dashboard/StatsCards";
 import RecentApplications from "@/components/dashboard/RecentApplications";
 import UpcomingInterviews from "@/components/dashboard/UpcomingInterviews";
+import StatusPieChart from "@/components/dashboard/charts/StatusPieChart";
 
 export default function DashboardPage() {
   return (
@@ -17,6 +18,10 @@ export default function DashboardPage() {
       </div>
 
       <StatsCards />
+
+      <div className="mt-8">
+        <StatusPieChart />
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
 

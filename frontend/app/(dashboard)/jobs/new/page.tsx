@@ -2,20 +2,18 @@ import JobForm from "@/components/jobs/JobForm";
 
 export default function NewJobPage() {
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold">
-          Add New Job
+          Add Job
         </h1>
 
         <p className="mt-2 text-muted-foreground">
-          Fill in the details of your job application.
+          Track a new job application.
         </p>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
-        <JobForm />
-      </div>
+      <JobForm />
     </div>
   );
 }
