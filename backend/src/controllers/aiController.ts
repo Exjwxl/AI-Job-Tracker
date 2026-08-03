@@ -55,4 +55,5 @@ export async function analyzeResumeController(
       success: false,
       message: "Resume analysis failed.",
     });
-  }
+  }
+}
