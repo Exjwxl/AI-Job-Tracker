@@ -1,12 +1,23 @@
-node_modules/
-.next/
-dist/
-
+# Environment files
 .env
 .env.local
+backend/.env
+frontend/.env
+frontend/.env.local
 
-coverage/
+# Dependencies
+node_modules/
+**/node_modules/
 
+# Next.js
+.next/
+
+# Build
+dist/
+build/
+
+# Logs
 *.log
 
-.vscode/settings.json
+# VS Code
+.vscode/
