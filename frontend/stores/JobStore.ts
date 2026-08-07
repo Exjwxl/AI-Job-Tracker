@@ -2,10 +2,17 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type JobStatus =
+  | "Saved"
   | "Applied"
   | "Interview"
+  | "Assessment"
   | "Offer"
   | "Rejected";
+
+export type JobPriority =
+  | "High"
+  | "Medium"
+  | "Low";
 
 export interface Job {
   id: string;
@@ -16,11 +23,13 @@ export interface Job {
   salary: string;
 
   status: JobStatus;
+  priority: JobPriority;
 
   appliedDate: string;
+  followUpDate: string;
+  deadline: string;
 
   url: string;
-
   notes: string;
 
   resumeId: string;
@@ -40,6 +49,11 @@ interface JobStore {
   updateJob: (
     id: string,
     updatedJob: Omit<Job, "id">
+  ) => void;
+
+  updateJobStatus: (
+    id: string,
+    status: JobStatus
   ) => void;
 
   deleteJob: (id: string) => void;
@@ -70,6 +84,18 @@ export const useJobStore = create<JobStore>()(
               ? {
                   id,
                   ...updatedJob,
+                }
+              : job
+          ),
+        })),
+
+      updateJobStatus: (id, status) =>
+        set((state) => ({
+          jobs: state.jobs.map((job) =>
+            job.id === id
+              ? {
+                  ...job,
+                  status,
                 }
               : job
           ),
