@@ -41,7 +41,7 @@ export default function ResumeAnalyzer() {
       formData.append("jobDescription", jobDescription);
 
       const response = await fetch(
-        "http://localhost:5000/api/ai/resume",
+       `${process.env.NEXT_PUBLIC_API_URL}/api/ai/resume`,
         {
           method: "POST",
           body: formData,
