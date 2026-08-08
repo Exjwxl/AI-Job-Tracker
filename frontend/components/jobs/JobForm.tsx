@@ -3,13 +3,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { useJobStore } from "@/stores/JobStore";
+import {
+  useJobStore,
+  JobStatus,
+  JobPriority,
+} from "@/stores/JobStore";
 import { useResumeStore } from "@/stores/ResumeStore";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+
+
 
 interface JobFormProps {
   jobId?: string;
@@ -27,21 +33,26 @@ export default function JobForm({
   const resumes = useResumeStore((state) => state.resumes);
 
   const [formData, setFormData] = useState({
-    company: "",
-    role: "",
-    location: "",
-    salary: "",
-    url: "",
-    notes: "",
+  company: "",
+  role: "",
+  location: "",
+  salary: "",
+  url: "",
+  notes: "",
 
-    resumeId: "",
+  resumeId: "",
 
-    interviewDate: "",
-    interviewTime: "",
-    interviewMode: "" as "" | "Online" | "Offline",
-    interviewer: "",
-    interviewNotes: "",
-  });
+  status: "Applied" as JobStatus,
+priority: "Medium" as JobPriority,
+  followUpDate: "",
+  deadline: "",
+
+  interviewDate: "",
+  interviewTime: "",
+  interviewMode: "" as "" | "Online" | "Offline",
+  interviewer: "",
+  interviewNotes: "",
+});
 
   useEffect(() => {
     if (!jobId) return;
@@ -59,6 +70,11 @@ export default function JobForm({
       notes: job.notes,
 
       resumeId: job.resumeId,
+
+      status: job.status,
+      priority: job.priority,
+      followUpDate: job.followUpDate,
+      deadline: job.deadline,
 
       interviewDate: job.interviewDate,
       interviewTime: job.interviewTime,
@@ -87,13 +103,10 @@ export default function JobForm({
     e.preventDefault();
 
     const jobData = {
-      ...formData,
+  ...formData,
 
-      status: "Applied" as const,
-
-      appliedDate:
-        new Date().toLocaleDateString(),
-    };
+  appliedDate: new Date().toLocaleDateString(),
+};
 
     if (jobId) {
       updateJob(jobId, jobData);
@@ -149,6 +162,72 @@ export default function JobForm({
           onChange={handleChange}
         />
       </div>
+
+      <div>
+  <Label htmlFor="status">Status</Label>
+
+  <select
+    id="status"
+    name="status"
+    value={formData.status}
+    onChange={handleChange}
+    className="w-full rounded-md border px-3 py-2"
+  >
+    <option value="Saved">Saved</option>
+    <option value="Applied">Applied</option>
+    <option value="Interview">Interview</option>
+    <option value="Assessment">Assessment</option>
+    <option value="Offer">Offer</option>
+    <option value="Rejected">Rejected</option>
+    </select>
+  </div>
+
+  <div>
+  <Label htmlFor="priority">Priority</Label>
+
+  <select
+    id="priority"
+    name="priority"
+    value={formData.priority}
+    onChange={handleChange}
+    className="w-full rounded-md border px-3 py-2"
+  >
+    <option value="High">High</option>
+    <option value="Medium">Medium</option>
+    <option value="Low">Low</option>
+  </select>
+    </div>
+
+    <div>
+  <Label htmlFor="followUpDate">
+    Follow-up Date
+  </Label>
+
+  <Input
+    type="date"
+    id="followUpDate"
+    name="followUpDate"
+    value={formData.followUpDate}
+    onChange={handleChange}
+  />
+</div>
+
+<div>
+  <Label htmlFor="deadline">
+    Application Deadline
+  </Label>
+
+  <Input
+    type="date"
+    id="deadline"
+    name="deadline"
+    value={formData.deadline}
+    onChange={handleChange}
+  />
+</div>
+
+
+
 
       <div>
         <Label htmlFor="resumeId">Resume</Label>
