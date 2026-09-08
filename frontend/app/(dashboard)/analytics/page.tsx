@@ -4,7 +4,7 @@ export default function AnalyticsPage() {
       <div className="text-center">
         <h1 className="text-3xl font-bold">Analytics</h1>
         <p className="mt-2 text-muted-foreground">
-          Analytics page coming soon.
+          Analytics page will be coming soon.
         </p>
       </div>
     </main>
